@@ -1,4 +1,4 @@
-import SearchBox from "./searchBox.jsx";
+import SearchBox from "./SearchBox.jsx";
 import InfoBox from "./InfoBox";
 import {useState } from "react";
 
