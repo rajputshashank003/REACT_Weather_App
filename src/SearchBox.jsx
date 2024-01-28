@@ -71,7 +71,8 @@ export default function SearchBox({updateInfo}) {
                 <Button variant="contained" endIcon={<SendIcon />} type='submit'>
                     Send
                 </Button>
-                <ToastContainer />
+                
+                <ToastContainer/>
             </form>
         </div>
     );
