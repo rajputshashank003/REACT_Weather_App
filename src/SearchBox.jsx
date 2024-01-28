@@ -4,10 +4,13 @@ import Button from '@mui/material/Button';
 import "./SearchBox.css";
 import React , {useState } from "react";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { sliderClasses } from '@mui/material';
+
 
 export default function SearchBox({updateInfo}) {
     let [city , setCity] = useState("");
-    let [error , setError] = useState(false);
     const API_URL = import.meta.env.REACT_APP_API_URL;
     const API_KEY = import.meta.env.REACT_APP_SECRET_KEY;
 
@@ -24,7 +27,6 @@ export default function SearchBox({updateInfo}) {
                 feelsLike : jsonResponse.main.feels_like,
                 weather : jsonResponse.weather[0].description,
             };
-            console.log(result);
             return result;
         } catch (err){
             throw err;  
@@ -38,15 +40,22 @@ export default function SearchBox({updateInfo}) {
     let handleSubmit = async (event) => {
         try {
             event.preventDefault();
-            console.log(city);
             setCity("");
             let newInfo = await getWeatherInfo();
             updateInfo(newInfo);
-        } catch (err){
-            setError(true);
-        }
+            showSuccess("Data fetched Successfully !");
+        } catch (err) {
+            showError("No such place exist !");
+        } 
     };
 
+    const showError = (msg) => {
+        toast.error(msg);
+    };
+    const showSuccess = (msg) => {
+        toast.success(msg);
+    }
+    
     return (
         <div className='SearchBox'>
             <form onSubmit={handleSubmit}>
@@ -62,7 +71,7 @@ export default function SearchBox({updateInfo}) {
                 <Button variant="contained" endIcon={<SendIcon />} type='submit'>
                     Send
                 </Button>
-                {error && <p style={{color: "red"}}>No Such Place Exist</p>}
+                <ToastContainer />
             </form>
         </div>
     );
